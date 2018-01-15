@@ -51,7 +51,7 @@ As I look back at the first Utica graph, I also notice that there seems to be so
 <img src="/images/Utica_Graph8.png" alt="Utica 8" style="width: 600px;"/>
 
 
-This ends up being a lot of graphs to look at, but I do think it offers some insight. The biggest differences between the weekdays and the weekends seem to happen in the 8-12AM and 4-8PM time slots. 4-8PM clearly is the best time slot, with it's weekday traffic averaging around 7500 passengers. 8AM-12PM seems to be a bit of an anomaly -  weekdays and weekends have very similar numbers that are pretty high all around. It may be worth delving into this a little bit further. I suspect that the bins are to blame, since morning rush hour is probably better defined as 6AM-10AM. Regardless, I think these graphs indicate that WYWT should focus on weekday rush hours.
+This ends up being a lot of graphs to look at, but I do think it offers some insight. The biggest differences between the weekdays and the weekends seem to happen in the 8-12AM and 4-8PM time slots. 4-8AM and 4-8PM clearly are the best time slots, with the weekday traffic averaging around 7500 passengers. 8AM-12PM and 12PM-4PM show a surprising pattern -  weekdays and weekends have very similar numbers. It may be worth delving into this a little bit further. I suspect that the bins are to blame, since morning rush hour is probably better defined as 6AM-10AM. Regardless, I think these graphs indicate that WYWT should focus on weekday rush hours as they are consistently the highest time slots.
 
 That is a pretty big generalization, but I think as we move through the next visualizations, being able to use that generalization will make our message cleaner and more concise. Again - keep these for the appendix!
 
