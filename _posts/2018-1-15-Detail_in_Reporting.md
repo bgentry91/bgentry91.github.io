@@ -5,17 +5,17 @@ title: Detail in Reporting - Missing the Forest for the Trees?
 
 ### The Problem
 
-For our first project at Metis, we were assigned the task of optimizing the placement of street teams at the entrance of NYC subway stations. These teams were to collect e-mail address for those who were interested in attending a gala held by "WomenTechWomenYes" (WYWT). At the conclusion of the project, we were to present our findings and recommendations.
+For our first project at Metis, we were assigned the task of optimizing the placement of street teams at the entrance of NYC subway stations. These teams were to collect e-mail addresses for those who were interested in attending a gala held by "WomenTechWomenYes" (WYWT). At the conclusion of the project, we were to present our findings and recommendations.
 
 In order to accomplish this, we collected data from the [MTA turnstile dataset](http://web.mta.info/developers/turnstile.html), which is a relatively "dirty" dataset of the entries and exits at each individual turnstile that the MTA manages. The entry and exit data is collected roughly every four hours (with some extra and missing).
 
-Because we had this data at such a granular level, I thought it best to try to report it to WYWT at this level. This meant giving the organization data for each potential four hour time slot. Becuase I felt that week over week changes were minimal, I decided to present to them a weekly "plan" that would allow them to choose the best station(s) for any four hour window during the week. Below is the graph we created to show the busiest stations at each four-hour increment.
+Because we had this data at such a granular level, we thought it best to try to report it to WYWT at this level. This meant giving the organization data for each potential four hour time slot. Becuase we felt that week over week changes were minimal, we decided to present to them a weekly "plan" that would allow them to choose the best station(s) for any four hour window during the week. Below is the graph we created to show the busiest stations at each four-hour increment.
 
 <img src="/images/Benson_Graph.png" alt="Benson_Graph" style="width: 600px;"/>
 
 As the other groups presented their data, I was surprised to find that very few others had organized their data in this way - most simply gave recommendations for the top stations and the best times (i.e. Times Square, Weekday Rush Hour). To me it seemed clear that the organization would want as much detail as possible, especially if they wanted to truly optimize their team placement. I asked one of the later groups why they had chosen to report their results in this way, since they clearly had the data in four hour increments. They responded that it was obvious what the best times were, so there was no benefit in adding those details. If 12-4AM on Sunday nights have minimal foot traffic, why clutter their recommendations?
 
-This was an interesting point that I hadn't considered. Even in my project I advised against these "bad" time slots, but still reported them as options. As I thought about it, I was a little disappointed that I had fallen into this over-reporting trap. In order to prevent myself from repeating my mistake, I did some research on detail in reporting and found some general guidelines from [Jennifer Shin's blog on the IBM Big Data & Analytics Hub](http://www.ibmbigdatahub.com/blog/data-visualization-playbook-determining-right-level-detail).
+This was an interesting point that I hadn't considered. Even in the project we advised against these "bad" time slots, but still reported them as options. As I thought about it, I was a little disappointed that we had fallen into this over-reporting trap. In order to prevent myself from repeating my mistake, I did some research on detail in reporting and found some general guidelines from [Jennifer Shin's blog on the IBM Big Data & Analytics Hub](http://www.ibmbigdatahub.com/blog/data-visualization-playbook-determining-right-level-detail).
 
 To me, she summed it up as:
 1. Visualize it all. If it's too busy, look at summary statistics.
