@@ -3,8 +3,6 @@ layout: post
 title: Detail in Reporting - Missing the Forest for the Trees?
 ---
 
-# Detail in Reporting - Missing the Forest for the Trees?
-
 ### The Problem
 
 For our first project at Metis, we were assigned the task of optimizing the placement of street teams at the entrance of NYC subway stations. These teams were to collect e-mail address for those who were interested in attending a gala held by "WomenTechWomenYes" (WYWT). At the conclusion of the project, we were to present our findings and recommendations.
