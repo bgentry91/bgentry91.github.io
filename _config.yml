@@ -4,7 +4,7 @@ bio:
 description:        Data Scientist at Metis
 locale:             en_US
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "bgentry91.github.io"
+url: ""
 
 defaults:
 - scope:
