@@ -3,7 +3,7 @@ title:              Browning Gentry
 bio:                
 description:        Data Scientist at Metis
 locale:             en_US
-baseurl: "bgentry91.github.io" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "bgentry91.github.io"
 
 defaults:
