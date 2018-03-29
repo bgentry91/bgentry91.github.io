@@ -7,10 +7,5 @@ sitemap:
     lastmod: 2017-11-02
     changefreq: weekly
 ---
-## About
-Browning Gentry, Industrial Engineer, Data Science Student at Metis.
-
 <img src="/docs/Gentry_Resume.png" alt="Me" style="width: 850; height:1100px"/>
-
-
 [PDF Download](docs/Gentry_Resume.pdf)
