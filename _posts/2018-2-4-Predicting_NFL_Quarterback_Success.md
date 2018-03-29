@@ -4,7 +4,7 @@ title: Predicting NFL Quarterback Success
 disqus: true
 ---
 
-# Predicting Quarterbacks
+#### Predicting Quarterbacks
 Last week I finished my second project for Metis, building a model that would predict NFL quarterback success out of college. To do this, I scraped data on college and NFL quarterbacks from [Sports-Reference.com](https://www.sports-reference.com). By combining the NFL and CFB data, I was able to look at a college quarterback's statistics and then see how they performed in the NFL. I measured each quarterback's performance as his [passer rating](https://en.wikipedia.org/wiki/Passer_rating) in his first true season, which is an aggregate statistic developed by the NFL to assess passing performance. I also was able to include some "biographic" statistics, such as which arm they threw with, their college, hometown, etc.
 
 Because NFL teams are constantly trying to avoid the [Johnny Manziels](https://en.wikipedia.org/wiki/Johnny_Manziel) of the world and get great deals on the [Tom Bradys](https://en.wikipedia.org/wiki/Tom_Brady), I had hoped my model would be able to predict the outlying quarterbacks. Most quarterbacks who end up playing in the NFL hit a minimum bar of skill, so some of the model is self-selecting - bad college quarterbacks aren't even going to be included in the dataset. This being said, most of the quarterbacks in the NFL have average passer ratings - the key is being able to predict those who are outside the norm.
