@@ -7,5 +7,5 @@ sitemap:
     lastmod: 2017-11-02
     changefreq: weekly
 ---
-## About our Site
-
+## About
+Browning Gentry, Industrial Engineer, Data Science Student at Metis.
