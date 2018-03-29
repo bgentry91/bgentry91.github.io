@@ -3,8 +3,8 @@ title:              Browning Gentry
 bio:                
 description:        Data Scientist at Metis
 locale:             en_US
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site
+baseurl: "bgentry91.github.io" # the subpath of your site, e.g. /blog
+url: "bgentry91.github.io"
 
 defaults:
 - scope:
@@ -34,7 +34,7 @@ sass:
 disqus_shortname:   https-bgentry91-github-io
 
 # Social
-analytics-id:       "default"
+analytics-id:       UA-116580039-1
 twitter:            default
 facebook:           default
 instagram:          default
