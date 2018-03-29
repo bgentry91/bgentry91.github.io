@@ -10,7 +10,7 @@ sitemap:
 ## About
 Browning Gentry, Industrial Engineer, Data Science Student at Metis.
 
+<img src="/docs/Gentry_Resume.png" alt="Me" style="width: 850; height:1100px"/>
 
-![Resume](docs/Gentry_Resume.png)
 
 [PDF Download](docs/Gentry_Resume.pdf)
