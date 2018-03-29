@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Predicting NFL Quarterback Success
-comments: true
+disqus: true
 ---
 
 # Predicting Quarterbacks

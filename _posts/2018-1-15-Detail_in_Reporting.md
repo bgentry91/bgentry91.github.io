@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Detail in Reporting - Missing the Forest for the Trees?
-comments: true
+disqus: true
 ---
 
 ### The Problem
