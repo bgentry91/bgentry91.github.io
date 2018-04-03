@@ -4,7 +4,7 @@ title: Detail in Reporting - Missing the Forest for the Trees?
 disqus: true
 ---
 
-#### The Problem
+## The Problem
 For our first project at Metis, we were assigned the task of optimizing the placement of street teams at the entrance of NYC subway stations. These teams were to collect e-mail addresses for those who were interested in attending a gala held by "WomenTechWomenYes" (WYWT). At the conclusion of the project, we were to present our findings and recommendations.
 
 In order to accomplish this, we collected data from the [MTA turnstile dataset](http://web.mta.info/developers/turnstile.html), which is a relatively "dirty" dataset of the entries and exits at each individual turnstile that the MTA manages. The entry and exit data is collected roughly every four hours (with some extra and missing).
@@ -25,7 +25,7 @@ To me, she summed it up as:
 
 Given these principles, I wanted to get back into the dataset to try to improve my visualization. I decided to start by looking at the data for my local stop, Utica Ave. Since the proposed problem had the gala in June, we pulled in 4 weeks of turnstile data for May 2017. For values that were obviously too large, I simply removed them. Where values were missing or had been removed, I attempted to take the median of the surrounding slots to fill that time slot. 
 
-### Plotting the Data
+## Plotting the Data
 
 Using Seaborn, I went ahead and plotted every data point.
 
@@ -86,7 +86,7 @@ I think this looks pretty good! It is much more simple than the graph I presente
 2. Traffic during the morning and afternoon rush hours is much higher than during off-peak times.
 3. Traffic during the morning and afternoon rush hours are correlated at each station.
 
-### Conclusions
+## Conclusions
 
 Looking back, I think I wanted to "show off" what our team could do with Seaborn without really thinking about what would be best for the client. Complicated graphs often look interesting but in this case did not do a good job of conveying our message. I will definitely have to think more about this next time!
 
