@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="-1">
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	<script src="https://d3js.org/topojson.v2.min.js"></script>
+	<style type="text/css">
+		.graph-svg-component {
+		    background-color: rgb(225,225,225);
+		}
+
+		/* Legend Font Style */
+		body {
+			font: 11px sans-serif;
+		}
+		        
+		/* Legend Position Style */
+		.legend {
+			position:absolute;
+			left:375px;
+			top:500px;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+
+	d3.csv("quarters.csv", function(data) {
+	    var elems = {};
+	    for (var i = 0; i < data.length; i++)
+	    {
+	        elems[data[i].index] = data[i].INSPECTION_YEAR_Q;
+	    }
+
+	var width = 500;
+	var height = 650;
+
+	var headline = "NYC Health Department Rat Inspection Results - Q1 2010";
+	
+	var init_quarter = 0
+	var final_quarter = 31
+    d3.select("body").insert("p", ":first-child").append("input")
+        .attr("type", "range")
+        .attr("min", '0')
+        .attr("max", "31")
+        .attr("value", init_quarter)
+        .attr("id", "quarter");
+
+    d3.select("body").insert("h2", ":first-child").text(headline);
+
+	var legendText = ["No Inspection", "Inspection Failed", "Inspection Passed"];
+
+	// D3 Projection
+	var projection = d3.geoMercator()
+					   .translate([width/2, height/2])
+					   .center([-73.963606, 40.788000])
+					   .scale([150000]);        
+
+	// Define path generator
+	var path = d3.geoPath()               
+			  	 .projection(projection);
+
+	var color = d3.scaleLinear()
+				.domain([0,1,2])
+			  	 .range(['#b3cde3',"#810f7c","#2ca25f"]); 
+
+	// Load GeoJSON data and merge with rat data
+	d3.json("nyc_c3.geojson", function(json){
+		//Create SVG element and append map to the SVG
+		var svg = d3.select("body")
+					.append("svg")
+					.attr("width", width)
+					.attr("height", height)
+					.attr("class", "graph-svg-component");
+
+		svg.selectAll("path")
+		.data(json.features)
+		.enter()
+		.append("path")
+		.attr("d", path)
+		.style("stroke","rgb(225,225,225)")
+		.style("stroke-width", "0.5")
+		.style("fill", function(d) {
+			var value = d.properties[0];
+			var county = d.properties.COUNTYFP
+			//If value exists and in manhattan
+			if (value) {
+				return color(value)}
+			if (county == '061') {
+				if (d.properties.AWATER == 0) {
+					return color(0);
+				}
+				else{
+					return "rgb(225,225,225)";
+				}
+			}
+			else {
+				//If value is undefined or outside MN, turn it white
+				return "rgb(225,225,225)";
+			}
+		})
+		// Building legend
+		var legend = d3.select("body").append("svg")
+		      			.attr("class", "legend")
+		     			.attr("width", 140)
+		    			.attr("height", 200)
+		   				.selectAll("g")
+		   				.data(color.domain().slice())
+		   				.enter()
+		   				.append("g")
+		     			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+		  	legend.append("rect")
+		   		  .attr("width", 18)
+		   		  .attr("height", 18)
+		   		  .style("fill", color);
+
+		  	legend.append("text")
+		  		  .data(legendText)
+		      	  .attr("x", 24)
+		      	  .attr("y", 9)
+		      	  .attr("dy", ".35em")
+		      	  .text(function(d) { return d; });
+
+
+		// updating map based on slider position
+	      d3.select("#quarter").on("input", function() {
+	        var quarter = this.value
+	        d3.select("h2").text('NYC Health Department Rat Inspection Results - ' 
+                      + elems[quarter])
+	        //d3.select("h2").text(headline + elems[year])
+	          svg.selectAll("path")
+	            .transition()
+	            .delay(200)
+	            .style("fill", function(d) {
+
+	            var value = d.properties[quarter];
+	            var county = d.properties.COUNTYFP
+	            //If value exists and in manhattan
+				if (value) {
+					return color(value)}
+				if (county == '061') {
+					if (d.properties.AWATER == 0) {
+						return color(0);
+					}
+					else{
+						return "rgb(225,225,225)";
+					}
+				}
+				else {
+					//If value is undefined or outside MN, turn it white
+					return "rgb(225,225,225)";
+				}
+	        });
+	      });
+	   	});
+	  });
+	</script>
+</body>
