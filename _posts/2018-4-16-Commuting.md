@@ -4,7 +4,6 @@ title: Visualizing my Winter Commute
 disqus: true
 ---
 
-### Commute
 I moved to New York in January to participate in the Metis data science bootcamp, which meant that I finally could commute by bike! Luckily the winter wasn't too cold and I was able to ride to Metis most days, though I do try to avoid rain and snow. I track almost all my rides using my [Wahoo cycling computer](https://www.wahoofitness.com/devices/bike-computers/gps-elemnt-bolt) and by using [GoldenCheetah](https://www.goldencheetah.org/) I was able to convert the data from the .fit format to .csv for Tableau. [Strava](https://www.strava.com/dashboard) and GoldenCheetah have some good visualizations and analysis built in, but since I'm still learning Tableau I thought I'd do some myself as well.
 
 If this project has taught me anything, it's that I need more sensors to get more data! Still looking for a reasonably priced power meter...

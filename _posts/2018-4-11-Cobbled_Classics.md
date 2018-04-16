@@ -4,7 +4,6 @@ title: A Shallow Analysis of the Cobbled Classics
 disqus: true
 ---
 
-### Cobbled Classics
 In the past year or so I've started to watch quite a bit of pro cycling. Like many, I started with the Tour de France but have since branched out, especially to the one-day races. They generally have a good bit of drama without the weeks-long time commitment. The ["Cobbled Classics"](https://en.wikipedia.org/wiki/Cobbled_classics) are four early season one-day races that feature numerous sections of pavé (cobblestones). The length of these races (250km+) combined with the pave sections make for some great racing.
 
 This year, everyone has been talking about the domination of [Quick-Step Floors](http://www.quickstepfloorscycling.com/) in the early season races. Since I had the opportunity this week to learn [Tableau](https://www.tableau.com/) and we're in a bit of a lull after [Paris-Roubaix](https://en.wikipedia.org/wiki/Paris%E2%80%93Roubaix), I thought I'd explore the results.
