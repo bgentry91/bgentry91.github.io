@@ -1,0 +1,541 @@
+<html lang="en"><head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+		<style type="text/css">
+
+			#browning {
+			 font: 16px sans-serif;
+			}
+
+		  	#play-button {
+		      position: relative;
+		      left: 35px;
+		      background: #f08080;
+		      padding-right: 26px;
+		      border-radius: 3px;
+		      border: none;
+		      margin-top: 10px;
+		      color: white;
+		      padding: 0 12px;
+		      width: 60px;
+		      cursor: pointer;
+		      height: 30px;
+		      font-size: 14px
+		    }
+
+		    #play-button:hover {
+		      background-color: #696969;
+		    }
+			.ticks {
+			  font: 10px sans-serif;
+			}
+
+			.track,
+			.track-inset,
+			.track-overlay {
+			  stroke-linecap: round;
+			}
+
+			.track {
+			  stroke: #000;
+			  stroke-opacity: 0.3;
+			  stroke-width: 10px;
+			}
+
+			.track-inset {
+			  stroke: #ddd;
+			  stroke-width: 8px;
+			}
+
+			.track-overlay {
+			  pointer-events: stroke;
+			  stroke-width: 50px;
+			  stroke: transparent;
+			  cursor: crosshair;
+			}
+
+			.handle {
+			  fill: #fff;
+			  stroke: #000;
+			  stroke-opacity: 0.5;
+			  stroke-width: 1.25px;
+			}
+
+			table {
+			  table-layout: fixed;
+			  width: 30%;
+			}
+
+		</style>
+	</head>
+	<body width="700">
+		<div id='loadGif', style = 'position: absolute; top: 80px; left: 250px;'>
+			<img src = 'Load-RH.gif', style = 'height: 180px'>
+		</div>
+		<div style = 'font: 30px sans-serif;margin-top:15px;text-align: center'>
+			<b>Men's Red Hook Crit No. 11</b>
+		</div>
+		<br>
+		<div style= 'width:700px;'>
+		<div style= 'left:290px; margin-top:15px; position:absolute;'>
+			<select id='selectRider', style = 'font: 16px sans-serif; background-color:#ffd200;'>
+			</select>
+		</div>
+		<div id=race>
+			<select id = "selectRace", onchange="updateRace()", style = 'font: 16px sans-serif;
+			margin-bottom: 13px; margin-top: 15px; margin-left: 35px;'>
+				<option value=0>Heat 1</option>
+				<option value=1>Heat 2</option>
+				<option value=2>Heat 3</option>
+				<option value=3>Heat 4</option>
+				<option value=4>Second Chance Race 1</option>
+				<option value=5>Second Chance Race 3</option>
+				<option value=6>Second Chance Race 4</option>
+				<option value=7>Finals</option>
+			</select>
+		</div>
+		<div id='vis'>
+			<div id="vis" style = 'float:left;'>
+	  			<button id="play-button">Play</button>
+			</div>
+			<div id='time' style='margin-left: 120px; padding-top:17px; font: 16px sans-serif;'>
+				<b>Race Time: 0:00</b>
+			</div>
+			<div style= 'left:290px; top:133px; position:absolute;'>
+				<select id = 'selectTeam', style= 'font: 16px sans-serif; color:white; background-color: #b784ff'></select>
+			</div>
+		</div>
+		<div id='browning'>
+			<div style="margin-bottom: 10px; margin-top: 15px;"><b>Speed</b></div>
+			<script type="text/javascript">
+				var svga = d3.select("#browning").append("input")
+			        .attr("type", "range")
+			        .attr("min", '1')
+			        .attr("max", "100")
+			        .attr("value", 1)
+			        .attr("id", "speed_slider")
+
+			    $("#browning").css({top: 5, left: 40, position:'relative'});
+			</script>
+		</div>
+		<br>
+		<div id = 'lapText', style="font: 16px sans-serif; margin-left:40px;"><b>Lap</b>
+		</div>
+		<div id='map'>
+			<svg width="700" height="50"></svg>
+			<script type="text/javascript">
+
+				function toTitleCase(str)
+					{
+					    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+					}
+
+
+			      //hiding buttons, showing load gif, etc when submit is clicked
+			      function hide(object) {
+			        var x = document.getElementById(object);
+			        x.style.visibility = "hidden";
+			      }
+			      //showing buttons, getting rid of load gif once routes are returned
+			      function show(object) {
+			        var x = document.getElementById(object);
+			        x.style.visibility = "visible"
+			      }
+
+			    hide('selectRider')
+			    hide('selectTeam')
+			    hide('vis')
+			    hide('selectRace')
+			    hide('browning')
+			    hide('map')
+			    hide('lapText')
+
+
+				var race_length
+				var laps
+				var playButton = d3.select("#play-button");
+				var currentValue = 1;
+				var targetValue
+				var margin
+				var width
+				var height
+				var color = d3.scaleOrdinal(d3.schemeCategory10)
+				var x
+				var slider
+				var handle
+				var lap_scale
+				var lap_time
+				var startx
+				var starty
+				var speed = 100
+				var races = ['heat1','heat2','heat3','heat4','scr1','scr3','scr4','final']
+				var dataset;
+				var datarace = []
+				var raceEnd
+				var raceDist
+
+				d3.csv("/files/RHC/RHC_Data.csv", function(data){
+					for (var i = 0; i < 8; i++) {
+							datarace[i] = data.filter(function (d){
+								return d.race == races[i];
+								})
+					}
+
+					updateRace(datarace[0])
+					app_image(startx,starty,svg2)
+
+				});
+
+				speed_scale = d3.scaleLinear()
+				    .domain([1, 100])
+				    .range([100, 1])
+				    .clamp(true);
+
+				var svg = d3.select("svg")
+				    margin = {right: 50, left: 50},
+				    width = +svg.attr("width") - margin.left - margin.right,
+				    height = +svg.attr("height");
+
+				var svg2 = d3.select("body")
+					.append("svg")
+				    .attr('width',700)
+				    .attr('height',500)
+
+				var projection = d3.geoMercator()
+						.scale(8000000)
+						.center([-74.0133,40.681]);
+
+				var line_width = 6
+
+				var lineFunction = d3.line()
+                    .x(function(d) { return projection([d.X,d.Y])[0]; })
+                    .y(function(d) { return projection([d.X,d.Y])[1]; })
+                    .curve(d3.curveCardinal);
+
+				d3.csv("/files/RHC/track_points.csv", function(data) {	
+
+					var inner = svg2.append('g')
+					  .append("path")
+					  .attr('d', lineFunction(data))
+					  .attr('stroke','black')
+					  .attr('stroke-width',line_width*2)
+					  .attr('fill','transparent');
+
+					var line = svg2.append('g')
+					  .append("path")
+					  .attr('d', lineFunction(data))
+					  .attr('stroke','#d8d8d8')
+					  .attr('stroke-width',line_width*1.5)
+					  .attr('fill','transparent')
+				});
+
+				function updateRace(){
+					currentValue = 1
+					var element = document.getElementById("selectRace")
+					var selectedRace = element.options[element.selectedIndex].value;
+					if (selectedRace != - 1) {		
+						setupVals(datarace[selectedRace]);
+						setFirst(datarace[selectedRace]);
+					}
+					else {
+						svg.selectAll('.slider').remove();
+						svg2.selectAll('.riders').remove()
+					}
+				}
+
+				function getRaceEnd(data){
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].lap == laps & data[i].location > race_distance-.01){
+							raceEnd = data[i].sec;
+							break;
+						}
+					}
+					return raceEnd
+				}
+
+				function setupVals(data) {
+					//setting initial values for slider and scale
+					lap_scale = []
+					lap_time = []
+					race_length = d3.max(data, function(d) {return parseInt(d.sec);})+1
+					race_distance = d3.max(data, function(d) {return parseFloat(d.location);})
+					laps = d3.max(data, function(d) {return parseInt(d.lap);})
+					startx = data[0].X
+					starty = data[0].Y
+					for (var i = 0; i < data.length; i++) {
+						if ($.inArray(data[i].lap, lap_scale) == -1) {
+							lap_scale.push(data[i].lap);
+							lap_time.push(data[i].sec);
+						}
+
+					}
+					var scale_array = lap_scale.map(function(e, i) {
+						  return [e, lap_time[i]];
+						});
+					drawSlider(scale_array);
+					var riders = d3.map(data, function(d){return d.name;}).keys()
+					var teams = d3.map(data, function(d){return d.team;}).keys()
+					riders.sort()
+					teams.sort()
+					document.getElementById('selectRider').innerHTML = riderHTML(riders)
+					document.getElementById('selectTeam').innerHTML = teamHTML(teams)
+					hide('loadGif')
+					show('selectRider');
+					show('selectTeam');
+					show('vis');
+					show('selectRace')
+					show('browning')
+					show('lapText')
+					show('map')
+					raceEnd = getRaceEnd(data)
+				}
+
+				function riderHTML (riders){
+					var outstr = '<option value=-1>Select Rider</option>'
+					var addstr
+					for (var i = 0; i <riders.length; i++) {
+						addstr = '<option value="' + riders[i] + '">' + toTitleCase(riders[i]) + '</option>'
+						outstr = outstr + addstr
+					}
+					return outstr
+				}
+
+				function teamHTML (teams){
+					var outstr = '<option value=-1>Select Team</option>'
+					var addstr
+					for (var i = 0; i <teams.length; i++) {
+						addstr = '<option value="' + teams[i] + '">' + toTitleCase(teams[i]) + '</option>'
+						outstr = outstr + addstr
+					}
+					return outstr
+				}
+
+				function drawSlider(scale_array){
+				
+				targetValue = race_length;
+
+				x = d3.scaleLinear()
+				    .domain([1, race_length])
+				    .range([1, width])
+				    .clamp(true);
+
+				svg.selectAll('.slider').remove()
+
+				slider = svg.append("g")
+				    .attr("class", "slider")
+				    .attr("transform", "translate(" + margin.left + "," + height / 2 + ")");
+
+				slider.append("line")
+				    .attr("class", "track")
+				    .attr("x1", x.range()[0])
+				    .attr("x2", x.range()[1])
+				  .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+				    .attr("class", "track-inset")
+				  .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
+				    .attr("class", "track-overlay")
+				    .call(d3.drag()
+				        .on("start.interrupt", function() { slider.interrupt(); })
+				        .on("start drag", function() {
+						          currentValue = parseInt(x.invert(d3.event.x));
+						          if (currentValue <= x.range()[0]){
+						          	currentValue = 1
+						          }
+						          else if (currentValue >= x.domain()[1]){
+						          	currentValue = x.domain()[1]
+						          }
+						          update(currentValue); 
+						        })
+						    );
+
+				    app_image(startx,starty, svg2);
+
+				slider.insert("g", ".track-overlay")
+				    .attr("class", "ticks")
+				    .attr("transform", "translate(0," + 22 + ")")
+				  .selectAll("text")
+				  .data(scale_array)
+				  .enter().append("text")
+				    .style('font-size','12px')
+				    .attr("x", function(d) { 
+				    	return x(d[1]) })
+				    .attr("text-anchor", "middle")
+				    .text(function(d) { return parseInt(d[0])+1 });
+
+				handle = slider.insert("circle", ".track-overlay")
+				    .attr("class", "handle")
+				    .attr("r", 9);
+
+				}
+
+				function app_image(startx,starty){
+					svg2.append('image')
+						.attr("xlink:href","https://www.rvinyl.com/Shared/Images/Product/Rwraps-reg-Sticker-Bomb-Vinyl-Film-Wrap-Checkered-Flag/Checkered-Flag-Vinyl-Wraps.jpg")
+						.attr('width',50)
+						.attr('x', projection([startx,starty])[0]-20)
+						.attr('y', projection([startx,starty])[1])
+						.attr('transform', 'rotate(270,' + projection([startx,starty])[0] + ',' + projection([startx,starty])[1] + ')')
+				}
+
+
+				function setFirst(data) {
+					dataset = data
+
+					var newData = data.filter(function (d){
+						return d.sec == currentValue;
+						})
+
+					drawPlot(newData);
+
+					 playButton
+					    .on("click", function() {
+					    var button = d3.select(this);
+					    if (button.text() == "Pause") {
+					      moving = false;
+					      clearInterval(timer);
+					      // timer = 0;
+					      button.text("Play");
+					    } else {
+					      moving = true;
+					      timer = setInterval(step, speed);
+					      button.text("Pause");
+					    }
+					    console.log("Slider moving: " + moving);
+					  })
+
+
+				};
+
+				function drawPlot(data) {
+
+				 	svg2.selectAll('.riders').remove()
+
+				   var circles = svg2.selectAll("circles.riders")
+					  .data(data);
+
+					var element = document.getElementById("selectRider")
+					var selectedRider = element.options[element.selectedIndex].value;
+					element = document.getElementById("selectTeam")
+					var selectedTeam = element.options[element.selectedIndex].value;
+
+					var selectedRiderData = data.filter(function (d){
+						return d.name == selectedRider;
+						})
+
+					var selectedTeamData = data.filter(function (d){
+						return d.team == selectedTeam;
+						})
+
+				  circles.enter()
+					  .append("circle")
+					  .data(data)
+					  .attr("r",line_width-1.5)
+					  .attr("class","riders")
+					  .attr("cx",function(d) { 
+					  		return projection([d.X,d.Y])[0];
+					   })
+					  .attr("cy",function(d) { 
+					  		return projection([d.X,d.Y])[1];
+					   })
+
+					   .attr('fill',function(d){
+					   			return color(d.group2)
+					   		});
+
+					circles.enter()
+					  .append('circle')
+					  .data(selectedTeamData)
+					  .attr("r",line_width+4)
+					  .attr("class","riders")
+					  .attr("cx",function(d) { 
+					  		return projection([d.X,d.Y])[0];
+					   })
+					  .attr("cy",function(d) { 
+					  		return projection([d.X,d.Y])[1];
+					   })
+					   .attr('fill','#b784ff')
+					   .attr('stroke','black')
+
+					circles.enter()
+					  .append('circle')
+					  .data(selectedRiderData)
+					  .attr("r",line_width+4)
+					  .attr("class","riders")
+					  .attr("cx",function(d) { 
+					  		return projection([d.X,d.Y])[0];
+					   })
+					  .attr("cy",function(d) { 
+					  		return projection([d.X,d.Y])[1];
+					   })
+					   .attr('fill','#ffd200')
+					   .attr('stroke','black')
+				}
+
+
+				function step() {
+					d3.select("#speed_slider").on("input", function() {
+	        				speed = speed_scale(this.value);
+	        				clearInterval(timer);
+	        				
+	        				if (currentValue < targetValue && moving== true) {
+								timer = setInterval(step, speed);
+							}
+	        				});
+
+				  currentValue = currentValue + (2);
+				  if (currentValue > targetValue) {
+				    moving = false;
+				    currentValue = 0;
+				    clearInterval(timer);
+				    // timer = 0;
+				    playButton.text("Play");
+				    console.log("Slider moving: " + moving);
+				  }
+				  else{
+				  	update(currentValue);
+				  }
+				 }
+
+				 function get_sec(sec){
+				 	if ((sec%60).toString().length < 2) {
+				 		return "0" + sec%60
+				 	}
+				 	else{
+				 		return sec%60
+				 	}
+				 }
+
+				 function update(h) {
+					  // update position and text of label according to slider scale
+					  document.getElementById('time').innerHTML = "<b>Race Time: " + parseInt(h/60) + ":" + get_sec(h) +  "</b>"
+					  handle.attr("cx", x(h));
+					  var newData = dataset.filter(function (d){
+						return d.sec == currentValue;
+						})
+					  drawPlot(newData);
+					  if (currentValue <= raceEnd) {
+						  t10array = []
+						  for (var i = 0; i <= 10; i++) {
+						  	  t10array.push(newData[i].name)
+						  }
+						  document.getElementById('posTable').innerHTML = top10HTML(t10array)
+						}
+				}
+				function top10HTML(top10){
+					outstr = '<th width=25%>Position</th><th>Rider</th></tr>'	
+					for (var i = 1; i <top10.length; i++) {
+						addstr = '<tr><td>' + (parseInt(i)) + '</td><td>' + toTitleCase(top10[i-1]) + '</td></tr>'
+						outstr = outstr + addstr
+					}
+					return outstr
+				}
+			</script>
+		</div>
+	</div>
+	<div>
+		<table id='posTable' style='position: absolute;left:130px; top:600px;text-align: center;'>
+		</table>
+	</div>
+	</body>
+</html>
