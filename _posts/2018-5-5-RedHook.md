@@ -12,4 +12,4 @@ The data was scraped from the posted [RaceTec Results](http://www.racetecresults
 
 One BIG caveat - the data is only at the lap level, so exact locations are linearly interpolated. Have to find a way to get all the riders' .fit files from the race...
 
-<iframe src="https://bgentry91.github.io/RHC/" style="border:3px black solid;" width = "730" height="875" scrolling="no"></iframe>
+<iframe src="http://localhost:4000/RHC" style="border:3px black solid;" width = "730" height="875" scrolling="no"></iframe>

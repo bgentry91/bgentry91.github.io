@@ -114,7 +114,7 @@
 			        .attr("type", "range")
 			        .attr("min", '1')
 			        .attr("max", "100")
-			        .attr("value", 1)
+			        .attr("value", 50)
 			        .attr("id", "speed_slider")
 
 			    $("#browning").css({top: 5, left: 40, position:'relative'});
@@ -169,23 +169,29 @@
 				var lap_time
 				var startx
 				var starty
-				var speed = 100
+				var speed = 50
 				var races = ['heat1','heat2','heat3','heat4','scr1','scr3','scr4','final']
 				var dataset;
 				var datarace = []
 				var raceEnd
 				var raceDist
 
-				d3.csv("/files/RHC/RHC_Data.csv", function(data){
-					for (var i = 0; i < 8; i++) {
+				d3.csv("/files/RHC/RHC_Data1.csv", function(data){
+					for (var i = 0; i < 4; i++) {
 							datarace[i] = data.filter(function (d){
 								return d.race == races[i];
 								})
 					}
-
 					updateRace(datarace[0])
 					app_image(startx,starty,svg2)
+				});
 
+				d3.csv("/files/RHC/RHC_Data2.csv", function(data){
+					for (var i = 4; i < 8; i++) {
+							datarace[i] = data.filter(function (d){
+								return d.race == races[i];
+								})
+					}
 				});
 
 				speed_scale = d3.scaleLinear()
