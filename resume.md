@@ -9,4 +9,4 @@ sitemap:
 ---
 <img src="/docs/Gentry_Resume.png" alt="Me" style="width: 850; height:1100px"/>
 
-[PDF Download](docs/Gentry_Resume.pdf)
+[PDF Download]({{ site.baseurl }}{% link docs/Gentry_Resume.pdf %})

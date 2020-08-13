@@ -8,6 +8,6 @@ sitemap:
     changefreq: weekly
 ---
 ## About
-Browning Gentry, Industrial Engineer, Data Science Student at Metis.
+Browning Gentry, Industrial Engineer, Data Scientist at Oscar Health.
 
 <img src="/images/Browning_1.jpg" alt="Me" style="width: 200; height:300px"/>

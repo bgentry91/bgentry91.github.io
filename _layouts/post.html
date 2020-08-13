@@ -33,9 +33,10 @@
     				<header class="major">
       				<span class="date">{{page.date | date_to_string}}</span>
       				<h1>{{page.title}}</h1>
+              <h3 style= 'font-size: 60px'>{% if page.subtitle %}{{ page.subtitle }}{% endif %}</h3>
       			</header>
-      			<div class="image main"><img src="{{page.image}}" alt=""></div>
-      			<p>{{content}}</p>
+<!--       			<div class="image main"><img src="{{page.image}}" alt=""></div>
+ -->      			<p>{{content}}</p>
       		</section>
 
           <div class="comments-wrapper">
