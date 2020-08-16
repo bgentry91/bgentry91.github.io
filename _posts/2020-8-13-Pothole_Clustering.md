@@ -185,7 +185,7 @@ from sklearn.preprocessing import MinMaxScaler
 scaled = MinMaxScaler((0,1)).fit_transform(cluster_features[['latitude','longitude','street_num']])
 ~~~
 
-<img src="/images//pothole_clusters/Final_Cluster.png" alt="Final Cluster" style="max-width:100%;max-height:100%"  />
+<img src="/images/pothole_clusters/Final_Cluster.png" alt="Final Cluster" style="max-width:100%;max-height:100%"  />
 
 Now there is some continuity to the streets, like Fulton in Downtown Brooklyn/Fort Green and 4th Avenue in Sunset Park. But there is also some good spread in certain areas, such as in Carroll Gardens and Cobble Hill. I think this version really hits a nice middle ground between prioritizing streets and considering lats/longs.
 
