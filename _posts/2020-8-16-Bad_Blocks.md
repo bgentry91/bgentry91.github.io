@@ -262,6 +262,9 @@ sql = '''
     '''
 
 matched_points = pd.read_sql_query(sql, conn)
+
+conn.commit()
+conn.close()
 ~~~
 
 There were originally 16400 records in `issues_df`. In the output,`matched_df`, there are 16153 records. Of these, there are 1206 points with more than one matched street and in total there are now only 14871 issues, down about 10%.
