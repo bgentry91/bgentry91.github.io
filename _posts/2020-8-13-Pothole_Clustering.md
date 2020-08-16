@@ -79,7 +79,7 @@ gmap.draw('map.html')
 
 Which results in a pretty good map! I've just taken a screenshot here, but locally you should be able to pan/zoom as you'd like.
 
-<img src="/images//pothole_clusters/Initial_Map.png" alt="Initial Map" style="max-width:100%;max-height:100%" />
+<img src="/images/pothole_clusters/Initial_Map.png" alt="Initial Map" style="max-width:100%;max-height:100%" />
 
 The first thing I noticed is that there is definitely some natural clustering. There are also a lot of outlying points that probably indicate an road issue, but aren't problematic enough to avoid riding on a given road.
 
@@ -135,7 +135,7 @@ gmap.draw('map.html')
 
 Which gives us something that looks... reasonable!
 
-<img src="/images//pothole_clusters/Initial_Clustering.png" alt="Initial Clustering" style="max-width:100%;max-height:100%"  />
+<img src="/images/pothole_clusters/Initial_Clustering.png" alt="Initial Clustering" style="max-width:100%;max-height:100%"  />
 
 I still don't feel like this is super helpful. It gives blobs to avoid, but when I'm riding my bike I really think more in terms of streets. 
 
@@ -160,11 +160,11 @@ clustering = HDBSCAN(min_samples=10).fit(cluster_features)
 
 Which results in this:
 
-<img src="/images//pothole_clusters/Street_Clusters.png" alt="Street Clustering" style="max-width:100%;max-height:100%" />
+<img src="/images/pothole_clusters/Street_Clusters.png" alt="Street Clustering" style="max-width:100%;max-height:100%" />
 
 It seems to be weighting the street pretty heavily in this version. Paring down and looking at one specific cluster along Henry Street, every single point is along the street, and the cluster is something like 2 miles long! This really isn't particularly helpful - I'd guess that the point in Red Hook really isn't an issue, and I wouldn't avoid all of Henry because there are some bad spots along its length. Maybe I would avoid that cluster around Atlantic Ave.
 
-<img src="/images//pothole_clusters/Henry_Cluster.png" alt="Henry St Cluster" style="max-width:100%;max-height:100%"  />
+<img src="/images/pothole_clusters/Henry_Cluster.png" alt="Henry St Cluster" style="max-width:100%;max-height:100%"  />
 
 This one took me a bit. I tried scaling the features between 0-1, thinking that maybe the small scale differences in Lat/Longs were causing problems. The lat/longs in the dataset range from [40.5788013, 40.7355137] and [-73.865758,-74.0341442], so fairly small increments compared to 0/1 for the dummy variables. Still didn't solve much.
 
@@ -203,3 +203,4 @@ First and foremost, I know this data is flawed. It's super biased to people repo
 
 Clustering is pretty imperfect. There are probably some huge/terrible potholes I excluded. But also check out that map - there are a ton I included! Can Brooklyn streets really be that bad? From personal experience on routes I regularly ride, it seems to hold up to some scrutiny. That being said... please go ride and let me know!  I'd love to keep on improving and tuning this to be the best it can be.
 
+images/bad_blocks/

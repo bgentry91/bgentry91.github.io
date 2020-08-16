@@ -7,7 +7,7 @@ disqus: true
 
 In my [last post](https://bgentry91.github.io/blog/Pothole_Clustering/), I discussed pulling [NYC 311 road condition reports](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9/data) from the NYC Open Data API and using [HDBSCAN](https://hdbscan.readthedocs.io/en/latest/) to cluster these reports into problem areas. This led to a somewhat cohesive result, but one that is still not very useful to the casual observer.
 
-<img src="/images//pothole_clusters/Final_Cluster.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
+<img src="/images/pothole_clusters/Final_Cluster.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
 
 A cycling route is ultimately a set of decisions about which turns to make and therefore which streets to ride on. These decisions occur at intersections, and in a grid there are generally 3 options (4, if you want to turn around). Each option leads you down a block to another intersection and so on. Except at the beginning and end of a route, it's fairly rare that a given block would not be completed. Conceptually then, a block is the basic unit of travel, and the sum of the blocks you ride determines the entire route.
 
@@ -129,7 +129,7 @@ for block in final_list:
 
 gmap.draw('map.html')
 ```
-<img src="/images//bad_blocks/bb_line.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
+<img src="/images/bad_blocks/bb_line.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
 
 Ok - so it looks like these cross!
 
@@ -174,7 +174,7 @@ for block in block_rectangles:
 gmap.draw('map.html')
 ~~~
 
-<img src="/images//bad_blocks/bb_poly.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
+<img src="/images/bad_blocks/bb_poly.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
 
 Now when zoomed in, the street has a real width.
 
@@ -296,7 +296,7 @@ for block in polygon_gmplot:
 gmap.draw('map.html')
 ~~~
 
-<img src="/images//bad_blocks/bb_final.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
+<img src="/images/bad_blocks/bb_final.png" alt="Final Cluster" style="max-width:100%;max-height:100%"/>
 
 I like this! There are obviously a lot of bad blocks in NYC, but that shouldn't surprise anyone. I'm not going to claim that this is perfect, but it does give a good general sense.
 
